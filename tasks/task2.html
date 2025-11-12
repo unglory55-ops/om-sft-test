@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Задача 2 — Форма</title>
+    <link rel="stylesheet" href="/src/styles/reset.css" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <link rel="stylesheet" href="/src/styles/task2.css" />
+  </head>
+  <body class="page">
+    <main class="wrap">
+      <h1 class="title">Заполните поля <small>ну пожалуйста</small></h1>
+
+      <form
+        class="card"
+        action="#"
+        method="post"
+        autocomplete="off"
+        onsubmit="event.preventDefault();"
+      >
+        <div class="section">
+          <legend class="section__legend">Основное</legend>
+
+          <label class="field">
+            <span class="field__label">Имя</span>
+            <input class="input" type="text" name="name" placeholder="по паспорту" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Цвет вашего настроения</span>
+            <input class="input input--color" type="color" name="mood" value="#0018ff" />
+          </label>
+        </div>
+
+        <div class="section section--alt">
+          <legend class="section__legend">Дополнительное</legend>
+
+          <label class="field">
+            <span class="field__label">Комментарий</span>
+            <textarea
+              class="input input--area"
+              name="comment"
+              rows="3"
+              placeholder="Напишите хоть что-нибудь. Если хотите, конечно."
+            ></textarea>
+          </label>
+        </div>
+
+        <div class="extras">
+          <label class="choice">
+            <input type="radio" name="dummy" />
+            <span>Ну а тут просто полежит радиобатон</span>
+          </label>
+
+          <label class="choice">
+            <input type="checkbox" name="agree" checked />
+            <span
+              >Соглашаюсь на всё, что вы не придумали и осознанно, что это может означать
+              <a href="#" class="link">что угодно</a></span
+            >
+          </label>
+        </div>
+
+        <button class="btn" type="submit">Отправить все мои данные</button>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+:root {
+  --maxw: 960px;
+  --pad: 16px;
+  --fg: #0f0f12;
+  --bg: #f2f2f3;
+  --muted: #9aa0a6;
+  --accent: #4f7cff;
+  --radius: 10px;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue',
+    Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--pad);
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 12px 0 8px;
+}
+
+.header-memes {
+  width: 400px;
+  border-radius: 4px;
+}
+
+.tasks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.tasks a {
+  padding: 12px;
+  border: 1px solid #23232a;
+  border-radius: var(--radius);
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+.tasks a:hover {
+  transform: translateY(-1px);
+}
+
+.section {
+  margin-top: 24px;
+}
+
+.card {
+  border: 1px solid #23232a;
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+}
+.button:active {
+  transform: translateY(1px);
+}

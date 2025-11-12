@@ -1,0 +1,130 @@
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --muted: #6c7178;
+
+  --card-w: 240px; /* ширина карточки */
+  --gap: 48px; /* межкарточный отступ, как в макете */
+  --pad-x: 16px;
+
+  --border: #ececf0;
+  --ph: #e8e9ec; /* фон заглушки */
+  --ph-edge: #dcdde1;
+
+  /* оформление полосы прокрутки */
+  --scroll-track: #e5e6ea;
+  --scroll-thumb: #7d1e24; /* бордово-красный как на макете */
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.wrap {
+  max-width: 1280px;
+  margin: 12px auto;
+  padding-inline: var(--pad-x);
+  padding-top: 100px;
+}
+.hint {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+/* === СКРОЛЛЕР === */
+.scroller {
+  position: relative;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden; /* прячем боковые подсказки */
+}
+
+/* Лента карточек: горизонтальный скролл по X через браузерный скроллбар */
+.track {
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0px 8px 32px; /* нижний паддинг — место под скроллбар */
+  scroll-snap-type: x proximity; /* легкий прилив */
+}
+
+/* Стилизуем нативный скроллбар (WebKit/Chromium). В остальных — дефолт */
+.track::-webkit-scrollbar {
+  height: 12px;
+}
+.track::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+  border-radius: 6px;
+}
+.track::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 6px;
+}
+.track::-webkit-scrollbar-thumb:hover {
+  filter: brightness(1.1);
+}
+/* Chrome/Safari/новый Edge — может сработать, может быть проигнорировано */
+.track::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+/* скрыть нативный */
+.track {
+  scrollbar-width: none;
+} /* Firefox */
+
+.track {
+  scrollbar-width: auto;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+}
+
+/* === КАРТОЧКА === */
+.card {
+  min-width: var(--card-w);
+  max-width: var(--card-w);
+  border-right: 1px solid var(--border);
+  scroll-snap-align: start;
+  padding: 10px 10px 20px;
+
+  --inview: 0; /* 0..1 будет задаваться JS */
+  opacity: calc(0.1 + 0.8 * var(--inview));
+  transform: translateX(calc(8px * (1 - var(--inview))));
+  transition: opacity 250ms linear, transform 250ms ease;
+  will-change: opacity, transform;
+}
+
+.card:last-child {
+  border-right: 0;
+}
+
+/* Блок изображения */
+.media {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* близко к макету */
+  margin-bottom: 16px;
+  display: block;
+  position: relative;
+}
+.ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--ph);
+  border-radius: 2px;
+  /* скрываем артефакты пустого src */
+  object-fit: cover;
+}
+
+/* Текст */
+.title {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #2a2a2a;
+  margin: 0;
+}

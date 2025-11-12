@@ -1,0 +1,54 @@
+/* Фон как в примере */
+.stage {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: #436e99;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/* 3D-кнопка */
+.btn3d {
+  --bg-top: #5f87ad; /* верхний цвет градиента */
+  --bg-bot: #3e648a; /* нижний цвет градиента */
+  --ring: rgba(255, 255, 255, 0.25);
+  --shadow: rgba(0, 0, 0, 0.35);
+  --bevel-in: rgba(255, 255, 255, 0.35); /* внутренний блик по верхнему краю */
+  --text: #f2f5f9;
+
+  position: relative;
+  padding: 10px 20px;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+
+  /* объём: внешний тень + градиент */
+  background: linear-gradient(to bottom, var(--bg-top), var(--bg-bot));
+  box-shadow: 0 10px 16px -8px var(--shadow), /* нижняя тень */ inset 0 1px 0 var(--bevel-in); /* тонкий верхний блик */
+
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.06s ease, box-shadow 0.06s ease, background 0.15s ease;
+}
+
+/* подсветка при :hover */
+.btn3d:hover {
+  filter: brightness(1.07);
+}
+
+/* состояние :active — «проваливание» */
+.btn3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 12px -8px var(--shadow), inset 0 2px 4px rgba(0, 0, 0, 0.35),
+    /* вдавливаем внутрь */ inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background: linear-gradient(to bottom, #567ea4, #375a7d); /* чуть темнее */
+}
+
+/* доступный фокус */
+.btn3d:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring), 0 10px 16px -8px var(--shadow), inset 0 1px 0 var(--bevel-in);
+}

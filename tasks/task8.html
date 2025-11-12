@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>3D шар — чекбокс с качением туда-обратно</title>
+    <link rel="stylesheet" href="/src/styles/reset.css" />
+    <link rel="stylesheet" href="/src/styles/task8.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- реальный чекбокс для формы -->
+      <input id="toggle" class="visually-hidden" type="checkbox" />
+
+      <h3>
+        Задача довольно специфичная, говнокодить не хочется,<br />
+        а на конечную реализацию, к сожалению, не хватило времени. Но самое важное - работает.
+      </h3>
+
+      <!-- видимый контрол (канвас), доступен с клавиатуры -->
+      <div
+        id="uiSwitch"
+        class="switch"
+        role="switch"
+        aria-checked="false"
+        tabindex="0"
+        aria-labelledby="hint"
+      >
+        <canvas
+          id="ball"
+          width="360"
+          height="220"
+          title="Пробел/Enter или клик — переключить"
+        ></canvas>
+      </div>
+
+      <div id="hint" class="hint">
+        Переключатель: клик/пробел/Enter. Шар катится без проскальзывания.
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        // ====== DOM
+        const input = document.getElementById('toggle');
+        const ui = document.getElementById('uiSwitch');
+        const canvas = document.getElementById('ball');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        // ====== HiDPI настройка
+        function setupCanvas() {
+          const dpr = Math.max(1, window.devicePixelRatio || 1);
+          const cssW = canvas.clientWidth || 360;
+          const cssH = canvas.clientHeight || 220;
+          canvas.width = Math.round(cssW * dpr);
+          canvas.height = Math.round(cssH * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        setupCanvas();
+        window.addEventListener('resize', () => {
+          setupCanvas();
+          draw(currentAngle, currentCx);
+        });
+
+        // ====== Геометрия дорожки/шара
+        const W = canvas.clientWidth,
+          H = canvas.clientHeight;
+        const padX = 24,
+          padY = 20;
+        const R = Math.min((H - 2 * padY) / 2, 60);
+        const cy = H / 2;
+
+        const leftLimit = padX + R;
+        const rightLimit = W - padX - R;
+        const travel = rightLimit - leftLimit;
+
+        // s = k·R·Δθ (чтобы Δθ = π давало полный ход)
+        const idealTravel = Math.PI * R;
+        const k = travel / idealTravel;
+
+        // ====== Освещение (мягкое) и блик
+        const lightDir = normalize([1, 1, 1]); // общий мягкий свет
+        const ambient = 0.35,
+          hemiInt = 0.45;
+        const specPow = 18,
+          specInt = 0.25;
+
+        // Цвета фронта
+        const red = [229, 83, 83];
+        const green = [85, 196, 74];
+
+        // ====== Состояние
+        let currentAngle = 0; // 0 → красный фронт, π → зелёный фронт
+        let currentCx = leftLimit; // старт слева
+        let dir = -1; // чередуем направление: −π, затем +π, и т.д.
+
+        // Анимация
+        let animFrom = { angle: 0, cx: leftLimit };
+        let animTo = { angle: Math.PI, cx: rightLimit };
+        let animStart = 0,
+          animDur = 1000,
+          rafId = 0;
+        let animating = false;
+
+        // ====== Управление (клик/клавиатура)
+        ui.addEventListener('click', (e) => {
+          e.preventDefault(); // не даём браузеру самовольно менять :checked у input
+          if (animating) return;
+          toggleTo(!input.checked);
+        });
+
+        ui.addEventListener('keydown', (e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            if (animating) return;
+            toggleTo(!input.checked);
+          }
+        });
+
+        function toggleTo(checked) {
+          // целимся в край (левый/правый) + качающееся направление по углу
+          const snapped = Math.round(currentAngle / Math.PI) * Math.PI; // 0 или π
+          const targetCx = checked ? rightLimit : leftLimit;
+          const targetAngle = snapped + dir * Math.PI;
+
+          animFrom = { angle: currentAngle, cx: currentCx };
+          animTo = { angle: targetAngle, cx: targetCx };
+          animStart = performance.now();
+          animating = true;
+
+          dir *= -1; // следующее нажатие — обратное качение
+          cancelAnimationFrame(rafId);
+          loop(checked);
+        }
+
+        function loop(finalChecked) {
+          rafId = requestAnimationFrame(() => loop(finalChecked));
+          const t = Math.min(1, (performance.now() - animStart) / animDur);
+          const eased = easeInOutCubic(t);
+
+          // Угол
+          currentAngle = mix(animFrom.angle, animTo.angle, eased);
+
+          // Δθ относительно ближайшего «чистого» состояния
+          const startSnap = snapToPI(animFrom.angle);
+          const startCx = isPi(startSnap) ? rightLimit : leftLimit;
+          const dTheta = currentAngle - startSnap;
+
+          // Без проскальзывания: вправо соответствует −Δθ (важно — минус!)
+          let cxByRoll = startCx - k * R * dTheta;
+
+          // Лёгкая стабилизация к целевой позиции (убирает дрожь пикселей)
+          const cxLerp = mix(animFrom.cx, animTo.cx, eased);
+          let cx = mix(cxByRoll, cxLerp, 0.12);
+
+          // Кламп краёв
+          cx = Math.max(leftLimit, Math.min(rightLimit, cx));
+
+          currentCx = cx;
+          draw(currentAngle, currentCx);
+
+          if (t >= 1) {
+            // Защёлкиваем в чистое состояние
+            currentAngle = snapToPI(currentAngle);
+            currentCx = isPi(currentAngle) ? rightLimit : leftLimit;
+            cancelAnimationFrame(rafId);
+            animating = false;
+
+            // Синхронизация состояния чекбокса + ARIA
+            input.checked = finalChecked;
+            ui.setAttribute('aria-checked', String(finalChecked));
+            draw(currentAngle, currentCx);
+          }
+        }
+
+        // ====== Рендер сферы (пер-пиксельно)
+        function draw(angleY, cx) {
+          // Дорожка
+          ctx.clearRect(0, 0, W, H);
+          ctx.lineWidth = 10;
+          ctx.lineCap = 'round';
+          ctx.strokeStyle = '#d7dee6';
+          ctx.beginPath();
+          ctx.moveTo(leftLimit, cy);
+          ctx.lineTo(rightLimit, cy);
+          ctx.stroke();
+
+          // Буфер 2R × 2R
+          const img = ctx.createImageData(2 * R, 2 * R);
+          const buf = img.data;
+          const cosY = Math.cos(angleY),
+            sinY = Math.sin(angleY);
+
+          for (let j = 0; j < 2 * R; j++) {
+            const yPix = j - R;
+            for (let i = 0; i < 2 * R; i++) {
+              const xPix = i - R;
+              const rr = xPix * xPix + yPix * yPix;
+              if (rr > R * R) continue;
+
+              const x = xPix / R,
+                y = yPix / R;
+              const z = Math.sqrt(Math.max(0, 1 - x * x - y * y));
+
+              // Поворот вокруг Y
+              const xR = x * cosY + z * sinY;
+              const zR = -x * sinY + z * cosY;
+              const yR = y;
+
+              // Нормаль
+              const nx = xR,
+                ny = yR,
+                nz = zR;
+
+              // Цвет: фронт/тыл по zR (в концах — чистые)
+              const base = zR >= 0 ? red : green;
+
+              // Мягкое освещение
+              const ndotl = nx * lightDir[0] + ny * lightDir[1] + nz * lightDir[2];
+              const dirDiffuse = 0.5 * (ndotl + 1);
+              const upInfluence = clamp01((ny + 1) / 2);
+              const hemiDiffuse = upInfluence * hemiInt + (1 - hemiInt) * 0.5;
+              const diff = clamp01(
+                ambient + (1 - ambient) * (0.6 * dirDiffuse + 0.4 * hemiDiffuse)
+              );
+
+              // Блик (экранно-стабильный можно включить позже; пока — мягкий спек по той же нормали)
+              const nd = Math.max(0, ndotl);
+              const rx = 2 * nd * nx - lightDir[0];
+              const ry = 2 * nd * ny - lightDir[1];
+              const rz = 2 * nd * nz - lightDir[2];
+              const rdotv = Math.max(0, rz);
+              const spec = Math.pow(rdotv, specPow) * specInt;
+
+              // Лёгкое затемнение по краю
+              const rim = Math.pow(1 - Math.max(0, ndotl), 1.15) * 0.1;
+
+              let r = base[0] * diff + 255 * spec;
+              let g = base[1] * diff + 255 * spec;
+              let b = base[2] * diff + 255 * spec;
+              r *= 1 - rim;
+              g *= 1 - rim;
+              b *= 1 - rim;
+
+              const idx = (j * 2 * R + i) * 4;
+              buf[idx + 0] = r | 0;
+              buf[idx + 1] = g | 0;
+              buf[idx + 2] = b | 0;
+              buf[idx + 3] = 255;
+            }
+          }
+
+          ctx.putImageData(img, Math.round(cx - R), Math.round(cy - R));
+        }
+
+        // ====== Утилиты
+        function easeInOutCubic(x) {
+          return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+        function mix(a, b, t) {
+          return a + (b - a) * t;
+        }
+        function normalize(v) {
+          const l = Math.hypot(...v);
+          return v.map((n) => n / l);
+        }
+        function clamp01(x) {
+          return x < 0 ? 0 : x > 1 ? 1 : x;
+        }
+        function snapToPI(a) {
+          return Math.round(a / Math.PI) * Math.PI;
+        }
+        function isPi(a) {
+          return Math.round(a / Math.PI) % 2 !== 0;
+        } // true ≈ π
+
+        // Первый кадр (OFF: красный слева)
+        draw(currentAngle, currentCx);
+        ui.setAttribute('aria-checked', 'false');
+      })();
+    </script>
+  </body>
+</html>

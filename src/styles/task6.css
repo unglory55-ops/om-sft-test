@@ -1,0 +1,58 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background: #000 url(../images/hero-bg.jpg) no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Основной контент занимает все доступное пространство и центрируется */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+/* Затемнение фона для лучшей читаемости текста */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.content-block {
+  padding: 2rem;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.footer {
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.footer a {
+  color: #fff;
+  text-decoration: underline;
+}

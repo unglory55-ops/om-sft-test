@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Задача 3 — Кнопки (демо)</title>
+
+    <link rel="stylesheet" href="/src/styles/reset.css" />
+    <link rel="stylesheet" href="/src/styles/task3.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body class="page">
+    <main class="wrap">
+      <h1 class="demo-title">Варианты кнопок</h1>
+
+      <section class="demo-grid" aria-label="Демо колонок с кнопками">
+        <!-- 1: Серые (base) -->
+        <div class="demo-col">
+          <h2 class="demo-col__title">Base</h2>
+          <button class="btn" type="button">Просмотреть</button>
+          <button class="btn btn--hover" type="button">Просмотреть</button>
+          <button class="btn btn--active" type="button">Просмотреть</button>
+          <button class="btn" type="button" disabled>Просмотреть</button>
+        </div>
+
+        <!-- 2: Outline danger -->
+        <div class="demo-col">
+          <h2 class="demo-col__title">Danger (outline)</h2>
+          <button class="btn btn--danger-outline" type="button">Просмотреть</button>
+          <button class="btn btn--danger-outline btn--hover" type="button">Просмотреть</button>
+          <button class="btn btn--danger-outline btn--active" type="button">Просмотреть</button>
+          <button class="btn btn--danger-outline" type="button" disabled>Просмотреть</button>
+        </div>
+
+        <!-- 3: Danger solid -->
+        <div class="demo-col">
+          <h2 class="demo-col__title">Danger</h2>
+          <button class="btn btn--danger" type="button">Просмотреть</button>
+          <button class="btn btn--danger btn--hover" type="button">Просмотреть</button>
+          <button class="btn btn--danger btn--active" type="button">Просмотреть</button>
+          <button class="btn btn--danger" type="button" disabled>Просмотреть</button>
+        </div>
+
+        <!-- 4: Base + caret -->
+        <div class="demo-col">
+          <h2 class="demo-col__title">Base + caret</h2>
+          <button class="btn btn--caret" type="button">Просмотреть</button>
+          <button class="btn btn--caret btn--hover" type="button">Просмотреть</button>
+          <button class="btn btn--caret btn--active" type="button">Просмотреть</button>
+          <button class="btn btn--caret" type="button" disabled>Просмотреть</button>
+        </div>
+
+        <!-- 5: Primary (зелёная) -->
+        <div class="demo-col">
+          <h2 class="demo-col__title">Primary</h2>
+          <button class="btn btn--primary" type="button">Просмотреть</button>
+          <button class="btn btn--primary btn--hover" type="button">Просмотреть</button>
+          <button class="btn btn--primary btn--active" type="button">Просмотреть</button>
+          <button class="btn btn--primary" type="button" disabled>Просмотреть</button>
+        </div>
+
+        <!-- 6: Primary outline -->
+        <div class="demo-col">
+          <h2 class="demo-col__title">Primary (outline)</h2>
+          <button class="btn btn--primary-outline" type="button">Просмотреть</button>
+          <button class="btn btn--primary-outline btn--hover" type="button">Просмотреть</button>
+          <button class="btn btn--primary-outline btn--active" type="button">Просмотреть</button>
+          <button class="btn btn--primary-outline" type="button" disabled>Просмотреть</button>
+        </div>
+      </section>
+
+      <section class="action-bar" aria-label="Действия со списком">
+        <button class="btn">
+          <i class="bi bi-pencil-square" aria-hidden="true"></i><span>Редактировать</span>
+        </button>
+        <button class="btn">
+          <i class="bi bi-filetype-xls" aria-hidden="true"></i><span>Выгрузить в Excel</span>
+        </button>
+        <button class="btn">
+          <i class="bi bi-x-lg" aria-hidden="true"></i><span>Удалить список</span>
+        </button>
+        <button class="btn">
+          <i class="bi bi-printer" aria-hidden="true"></i><span>Распечатать</span>
+        </button>
+        <button class="btn">
+          <i class="bi bi-upload" aria-hidden="true"></i><span>Загрузить из файла</span>
+        </button>
+      </section>
+    </main>
+  </body>
+</html>

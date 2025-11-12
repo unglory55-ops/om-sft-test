@@ -1,0 +1,74 @@
+/* чуть стилей для наглядности */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+.cols {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+article,
+aside,
+section {
+  border: 1px solid #23232a;
+  border-radius: 10px;
+  padding: 16px;
+}
+figure {
+  margin: 0;
+}
+figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid #23232a;
+  padding: 8px;
+  text-align: left;
+}
+
+kbd,
+code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+}
+blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+  color: var(--muted);
+}
+nav a {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid #23232a;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px solid #2a2b32;
+  border-radius: 999px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+footer {
+  font-size: 12px;
+  color: var(--muted);
+}

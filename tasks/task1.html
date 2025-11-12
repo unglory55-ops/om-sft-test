@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Задача 1 — Произвольный текст</title>
+  <link rel="stylesheet" href="/src/styles/reset.css" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <link rel="stylesheet" href="/src/styles/task1.css" />
+
+</head>
+<body>
+  <header class="container">
+    <h1>Гид по семантике HTML <span class="badge">демо</span></h1>
+    <p>Покрываем как можно больше элементов: заголовки, списки, цитаты, <mark>выделения</mark>, изображения, таблицы, формы и интерактивные детали.</p>
+    <nav aria-label="Якоря по странице">
+      <a href="#intro">Введение</a>
+      <a href="#media">Медиа</a>
+      <a href="#data">Данные</a>
+      <a href="#form">Форма</a>
+      <a href="#more">Ещё</a>
+    </nav>
+  </header>
+
+  <main class="container grid">
+    <article id="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title">Введение</h2>
+      <p>
+        Это <strong>произвольный текст</strong> с разнообразными элементами. 
+        Дата публикации: <time datetime="2025-11-11">11 ноября 2025</time>.
+        Термин <abbr title="Application Programming Interface">API</abbr> используется для обозначения интерфейсов.
+      </p>
+      <h3>Заголовки</h3>
+      <h4>Уровень h4</h4>
+      <h5>Уровень h5</h5>
+      <h6>Уровень h6</h6>
+
+      <section>
+        <h3>Списки</h3>
+        <p>Маркированный список:</p>
+        <ul>
+          <li>Элемент <em>первый</em></li>
+          <li>Элемент второй</li>
+          <li>Элемент третий</li>
+        </ul>
+        <p>Нумерованный список:</p>
+        <ol>
+          <li>Шаг один</li>
+          <li>Шаг два</li>
+          <li>Шаг три</li>
+        </ol>
+        <p>Список определений:</p>
+        <dl>
+          <dt>Семантика</dt>
+          <dd>Смысловая разметка контента правильными тегами.</dd>
+          <dt>Доступность</dt>
+          <dd>Дружелюбие интерфейса для всех пользователей.</dd>
+        </dl>
+      </section>
+
+      <section>
+        <h3>Цитаты и код</h3>
+        <blockquote cite="https://developer.mozilla.org/">
+          «Семантическая разметка помогает машинам и людям понимать структуру документа».
+        </blockquote>
+        <p>Встроенный код: <code>const x = 2 ** 3;</code>. Комбинации клавиш: <kbd>Ctrl</kbd> + <kbd>S</kbd>.</p>
+        <pre>
+          <code>
+            // Блочный пример
+            function sum(a, b) {
+              return a + b; // 1 + 2 = 3
+            }
+          </code>
+        </pre>
+        <p>Формулы: H<sub>2</sub>O, площадь круга πr<sup>2</sup>.</p>
+      </section>
+    </article>
+
+    <section id="media" aria-labelledby="media-title">
+      <h2 id="media-title">Медиа</h2>
+      <figure>
+        <!-- Встроенный SVG, чтобы не тянуть внешние ассеты -->
+        <svg width="100%" height="160" viewBox="0 0 600 160" role="img" aria-labelledby="svgTitle svgDesc">
+          <title id="svgTitle">Декоративная диаграмма</title>
+          <desc id="svgDesc">Полосы и круги для декора</desc>
+          <rect x="0" y="0" width="600" height="160" fill="#fff"/>
+          <circle cx="80" cy="80" r="42" fill="#4f7cff"/>
+          <rect x="140" y="40" width="420" height="16" fill="#ccc"/>
+          <rect x="140" y="68" width="360" height="16" fill="#ccc"/>
+          <rect x="140" y="96" width="300" height="16" fill="#ccc"/>
+        </svg>
+        <figcaption>Рис. 1. Инлайновый SVG (пример медиа-контента).</figcaption>
+      </figure>
+      <p>Ссылка с атрибутами: <a href="https://developer.mozilla.org/ru/" target="_blank" rel="noopener noreferrer"><cite>MDN Web Docs</cite></a>.</p>
+    </section>
+
+    <section id="data" aria-labelledby="data-title">
+      <h2 id="data-title">Данные (таблица)</h2>
+      <table>
+        <caption>Мини-таблица сравнения тегов</caption>
+        <thead>
+          <tr>
+            <th scope="col">Тег</th>
+            <th scope="col">Назначение</th>
+            <th scope="col">Заметка</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>&lt;header&gt;</code></td>
+            <td>Шапка раздела/страницы</td>
+            <td>Можно несколько на странице</td>
+          </tr>
+          <tr>
+            <td><code>&lt;main&gt;</code></td>
+            <td>Основной контент</td>
+            <td>Один на страницу</td>
+          </tr>
+          <tr>
+            <td><code>&lt;aside&gt;</code></td>
+            <td>Боковая панель/врезка</td>
+            <td>Второстепенная инфа</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside aria-label="Боковая заметка">
+      <h2>Сайдбар</h2>
+      <p>Полезная мелочь: используйте <small>маленький шрифт</small> для второстепённых примечаний.</p>
+      <p>Разделитель ниже:</p>
+      <hr />
+      <p>Адрес: <address>г. Воронеж, ул. Примерная, д. 1</address></p>
+    </aside>
+
+    <section id="form" aria-labelledby="form-title">
+      <h2 id="form-title">Форма (доступная)</h2>
+      <form action="#" method="post" class="grid cols" onsubmit="event.preventDefault(); alert('Отправлено');">
+        <div>
+          <label for="name">Имя</label>
+          <input id="name" name="name" type="text" placeholder="Иван" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="ivan@example.com" />
+        </div>
+        <div>
+          <label for="role">Роль</label>
+          <select id="role" name="role">
+            <option value="dev">Разработчик</option>
+            <option value="qa">Тестировщик</option>
+            <option value="pm">Менеджер</option>
+          </select>
+        </div>
+        <div>
+          <fieldset>
+            <legend>Интересы</legend>
+            <label><input type="checkbox" name="i" value="html" checked /> HTML</label><br/>
+            <label><input type="checkbox" name="i" value="css" /> CSS</label><br/>
+            <label><input type="checkbox" name="i" value="js" /> JS</label>
+          </fieldset>
+        </div>
+        <div>
+          <fieldset>
+            <legend>Опыт</legend>
+            <label><input type="radio" name="exp" value="junior" /> Junior</label><br/>
+            <label><input type="radio" name="exp" value="middle" /> Middle</label><br/>
+            <label><input type="radio" name="exp" value="senior" /> Senior</label>
+          </fieldset>
+        </div>
+        <div>
+          <label for="msg">Комментарий</label>
+          <textarea id="msg" name="msg" rows="4" placeholder="Ваше сообщение..."></textarea>
+        </div>
+        <div>
+          <button class="button" type="submit" data-action="demo">Отправить</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="more" aria-labelledby="more-title">
+      <h2 id="more-title">Ещё элементы</h2>
+      <details>
+        <summary>Открыть пояснение</summary>
+        <p>Тег <code>&lt;details&gt;</code> делает сворачиваемые секции без JS.</p>
+      </details>
+      <p>Текст с <u>подчёркиванием</u>, <s>зачёркиванием</s> и <mark>подсветкой</mark>.</p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>© <time datetime="2025">2025</time> Пример страницы. Сделано для демонстрации семантики. | <a href="#top">Наверх ↑</a></p>
+    <p class="sr-only">Скрытый текст для скринридеров.</p>
+  </footer>
+
+</body>
+</html>

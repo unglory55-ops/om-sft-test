@@ -1,0 +1,189 @@
+/* =========================================================
+   БАЗА СТРАНИЦЫ (ДЕМО)
+   ========================================================= */
+.page {
+  min-height: 100dvh;
+  display: block;
+  background: #f1f1f4;
+  color: #111;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+.wrap {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.demo-title {
+  font-size: 20px;
+  margin-bottom: 14px;
+  color: #222;
+}
+
+/* Сетка колонок демо */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.demo-col {
+  background: #fff;
+  border: 1px solid #e4e4ea;
+  border-radius: 8px;
+  padding: 12px;
+}
+.demo-col__title {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 10px;
+  text-align: center;
+}
+.demo-col button {
+  width: 100%;
+  margin: 6px 0;
+}
+
+/* Адаптив для демо */
+@media (max-width: 900px) {
+  .demo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .demo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 400px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   КНОПКА: БАЗА (НЕ МЕНЯЕМ РАЗМЕРЫ/ОТСТУПЫ/ТОКЕНЫ)
+   ========================================================= */
+.btn {
+  /* Токены по умолчанию */
+  --btn-bg: #ebebeb;
+  --btn-fg: #111111;
+  --btn-bd: #afafaf;
+  --btn-bg-hover: #f4f4f4;
+  --btn-bg-active: #e1e1e1;
+  --btn-radius: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 12px; /* фиксировано */
+  border: 1px solid var(--btn-bd);
+  border-radius: var(--btn-radius);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.03s ease;
+}
+
+.btn:hover,
+.btn.btn--hover {
+  background: var(--btn-bg-hover);
+}
+
+.btn:active,
+.btn.btn--active {
+  background: var(--btn-bg-active);
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.25);
+}
+
+.btn:disabled,
+.btn.btn--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Доп. украшение — маленькая «стрелка» */
+.btn--caret::after {
+  content: '▸';
+  font-size: 12px;
+  opacity: 0.9;
+  margin-left: 4px;
+}
+
+/* =========================================================
+   ВАРИАНТЫ
+   ========================================================= */
+
+/* Primary (зелёная сплошная) */
+.btn--primary {
+  --btn-bg: #6cab3c;
+  --btn-fg: #ffffff;
+  --btn-bd: #5e9c34;
+  --btn-bg-hover: #65a238;
+  --btn-bg-active: #5a9432;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 6px 16px rgba(108, 171, 60, 0.35);
+}
+.btn--primary:hover,
+.btn--primary.btn--hover {
+  border-color: #5a9a33;
+}
+.btn--primary:active,
+.btn--primary.btn--active {
+  box-shadow: 0 3px 10px rgba(108, 171, 60, 0.35);
+}
+
+/* Primary outline (зелёная окантовка) */
+.btn--primary-outline {
+  --btn-bg: #f4f6f2;
+  --btn-fg: #3b6f22;
+  --btn-bd: #7fb65a;
+  --btn-bg-hover: #e9f1e2;
+  --btn-bg-active: #dfead8;
+}
+
+/* Danger (красная сплошная) */
+.btn--danger {
+  --btn-bg: #e03a32;
+  --btn-fg: #ffffff;
+  --btn-bd: #c92f28;
+  --btn-bg-hover: #d4352d;
+  --btn-bg-active: #b92c25;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 6px 16px rgba(224, 58, 50, 0.35);
+}
+
+/* Danger outline (красная окантовка) */
+.btn--danger-outline {
+  --btn-bg: #ffffff;
+  --btn-fg: #b02720;
+  --btn-bd: #e06a66;
+  --btn-bg-hover: #fff3f2;
+  --btn-bg-active: #ffe3e1;
+}
+
+/* Полоса действий */
+.action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Иконка слева от текста — садится на уже существующую .btn */
+.btn > .bi {
+  font-size: 16px;
+  line-height: 1;
+}

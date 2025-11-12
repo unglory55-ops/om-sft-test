@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Задача 5 — Витрина</title>
+    <link rel="stylesheet" href="/src/styles/reset.css" />
+    <link rel="stylesheet" href="/src/styles/task5.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="scroller" aria-label="Витрина товаров">
+        <div class="track">
+          <!-- Карточка 1 -->
+          <article class="card">
+            <div class="media">
+              <img
+                class="ph"
+                src="../src/images/slide_01.jpg"
+                alt="Набор настольный BESTAR «Amenhotep» из дерева, 8 предметов, двойной лоток, светлая
+              вишня"
+              />
+            </div>
+            <h3 class="title">
+              Набор настольный BESTAR «Amenhotep» из дерева, 8 предметов, двойной лоток, светлая
+              вишня
+            </h3>
+          </article>
+
+          <!-- Карточка 2 -->
+          <article class="card">
+            <div class="media">
+              <img
+                class="ph"
+                src="../src/images/slide_01.jpg"
+                alt="Набор настольный BESTAR «Charon» из дерева, 7 предметов, двойной лоток, красное дерево"
+              />
+            </div>
+            <h3 class="title">
+              Набор настольный BESTAR «Charon» из дерева, 7 предметов, двойной лоток, красное дерево
+            </h3>
+          </article>
+
+          <!-- Карточка 3 -->
+          <article class="card">
+            <div class="media">
+              <img
+                class="ph"
+                src="../src/images/slide_01.jpg"
+                alt="Набор настольный BESTAR «Charon» из дерева, 7 предметов, двойной лоток, орех"
+              />
+            </div>
+            <h3 class="title">
+              Набор настольный BESTAR «Charon» из дерева, 7 предметов, двойной лоток, орех
+            </h3>
+          </article>
+
+          <!-- Карточка 4 -->
+          <article class="card">
+            <div class="media">
+              <img
+                class="ph"
+                src="../src/images/slide_01.jpg"
+                alt="Набор настольный BESTAR «Hercules» из дерева, 5 предметов, двойной лоток, красное
+              дерево"
+              />
+            </div>
+            <h3 class="title">
+              Набор настольный BESTAR «Hercules» из дерева, 5 предметов, двойной лоток, красное
+              дерево
+            </h3>
+          </article>
+
+          <article class="card">
+            <div class="media">
+              <img
+                class="ph"
+                src="../src/images/slide_01.jpg"
+                alt="Набор настольный BESTAR «Hercules» из дерева…"
+              />
+            </div>
+            <h3 class="title">Набор настольный BESTAR «Hercules» из дерева…</h3>
+          </article>
+
+          <article class="card">
+            <div class="media">
+              <img class="ph" src="../src/images/slide_01.jpg" alt="Набор настольный BESTAR…" />
+            </div>
+            <h3 class="title">Набор настольный BESTAR…</h3>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const track = document.querySelector('.track');
+      const cards = [...track.querySelectorAll('.card')];
+
+      // создаём «лестницу» threshold-ов для более плавного ratio
+      const thresholds = Array.from({ length: 21 }, (_, i) => i / 20);
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            // 0..1 — доля видимой площади карточки внутри .track
+            const r = e.intersectionRatio;
+            e.target.style.setProperty('--inview', r.toFixed(3));
+          });
+        },
+        { root: track, threshold: thresholds }
+      );
+
+      cards.forEach((c) => io.observe(c));
+    </script>
+  </body>
+</html>
