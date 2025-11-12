@@ -6,9 +6,9 @@
 
 ```bash
 # установка
-npm i
+yarn install
 
 # дев-сервер
-npm run dev
+yarn dev
 
 ```
